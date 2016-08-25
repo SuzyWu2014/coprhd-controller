@@ -1364,9 +1364,11 @@ public class NetworkDeviceController implements NetworkController {
             if (exportGroup != null && exportGroup.getExportMasks() != null) {
                 exportMaskURIs = new ArrayList<URI>();
                 exportMaskURIs = StringSetUtil.stringSetToUriList(exportGroup.getExportMasks());
+            } else {
+            	exportMaskURIs = new ArrayList<URI>();
             }
         }
-
+        
         for (URI exportMaskURI : exportMaskURIs) {
             ExportMask exportMask = _dbClient.queryObject(ExportMask.class, exportMaskURI);
             if (exportMask != null && !exportMask.getInactive()

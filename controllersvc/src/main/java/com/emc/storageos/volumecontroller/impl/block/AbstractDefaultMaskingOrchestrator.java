@@ -2558,9 +2558,14 @@ abstract public class AbstractDefaultMaskingOrchestrator {
             String caller = String.format("%s#%s", elements[1].getClassName(), elements[1].getMethodName());
             StringBuilder message = new StringBuilder();
             message.append(String.format("ExportGroup before %s %n %s", caller, exportGroup.toString()));
-            message.append(String.format("ExportMasks associated with ExportGroup and StorageSystem %s:", storage));
-            for (ExportMask exportMask : ExportMaskUtils.getExportMasks(_dbClient, exportGroup, storage)) {
-                message.append('\n').append(exportMask.toString());
+            List<ExportMask> exportMasks = ExportMaskUtils.getExportMasks(_dbClient, exportGroup, storage);
+            if (exportMasks != null && !exportMasks.isEmpty()) {
+	            message.append(String.format("ExportMasks associated with ExportGroup %s and StorageSystem %s:", exportGroup.getId(), storage));
+	            for (ExportMask exportMask : exportMasks) {
+	                message.append('\n').append(exportMask.toString());
+	            }
+            } else {
+            	message.append('\n').append(String.format("No ExportMasks associated with ExportGroup %s and StorageSystem %s", exportGroup.getId(), storage));
             }
             _log.info(message.toString());
         }
