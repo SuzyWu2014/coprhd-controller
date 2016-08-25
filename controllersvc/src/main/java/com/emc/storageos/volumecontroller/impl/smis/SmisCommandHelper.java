@@ -5582,6 +5582,13 @@ public class SmisCommandHelper implements SmisConstants {
     public String getVMAX3FastSettingForVolume(URI blockObjectURI, String autoTierPolicyName) {
         StringBuffer policyName = new StringBuffer();
         Volume volume = null;
+        
+        
+        //Bharath - intentional failure.
+        if (true) {
+        	throw DeviceControllerException.exceptions.attachVolumeMirrorFailed(" Bharath  Intentional failure");
+        }
+        
         if (URIUtil.isType(blockObjectURI, Volume.class)) {
             volume = _dbClient.queryObject(Volume.class, blockObjectURI);
 
