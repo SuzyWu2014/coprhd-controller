@@ -1359,15 +1359,18 @@ public class NetworkDeviceController implements NetworkController {
      */
     private void updateZoningMap(List<NetworkFCZoneInfo> lastReferenceZoneInfo, URI exportGroupURI, List<URI> exportMaskURIs) {
 
+    	List<URI> emURIs = new ArrayList<URI>();
         if (exportMaskURIs == null || exportMaskURIs.isEmpty()) {
             ExportGroup exportGroup = _dbClient.queryObject(ExportGroup.class, exportGroupURI);
             if (exportGroup != null && exportGroup.getExportMasks() != null) {               
-                exportMaskURIs = (StringSetUtil.stringSetToUriList(exportGroup.getExportMasks()));
+                emURIs.addAll(StringSetUtil.stringSetToUriList(exportGroup.getExportMasks()));
             } 
+        } else {
+        	emURIs.addAll(exportMaskURIs);
         }
         
-        for (URI exportMaskURI : exportMaskURIs) {
-            ExportMask exportMask = _dbClient.queryObject(ExportMask.class, exportMaskURI);
+        for (URI emURI : emURIs) {
+            ExportMask exportMask = _dbClient.queryObject(ExportMask.class, emURI);
             if (exportMask != null && !exportMask.getInactive()
                     && !exportMask.fetchDeviceDataMapEntry(
                             ExportMask.DeviceDataMapKeys.ImmutableZoningMap.name()).contains(Boolean.TRUE.toString())) {
@@ -1396,12 +1399,12 @@ public class NetworkDeviceController implements NetworkController {
                                                 if (ports.isEmpty()) {
                                                     exportMask.removeZoningMapEntry(initiatorId);
                                                     _log.info("Removing zoning map entry for initiator {}, in exportmask {}",
-                                                            initiatorId, exportMaskURI);
+                                                            initiatorId, emURI);
                                                 } else {
                                                     exportMask.addZoningMapEntry(initiatorId, ports);
                                                     _log.info("Removing storagePort " + storagePort.getId()
                                                             + " from zoning map for initiator " + initiatorId
-                                                            + " in export mask " + exportMaskURI);
+                                                            + " in export mask " + emURI);
                                                 }
                                             }
                                         }
@@ -1589,7 +1592,7 @@ public class NetworkDeviceController implements NetworkController {
 
             if (result.isCommandSuccess() && !lastReferenceZoneInfo.isEmpty()) {
                 _log.info("There seems to be last reference zones that were removed, clean those zones from the zoning map.");
-                updateZoningMap(lastReferenceZoneInfo, exportGroupURI, new ArrayList<URI>());
+                updateZoningMap(lastReferenceZoneInfo, exportGroupURI, null);
             }
 
             return result.isCommandSuccess();
