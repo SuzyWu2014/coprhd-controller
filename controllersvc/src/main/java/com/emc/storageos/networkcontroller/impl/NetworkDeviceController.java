@@ -1360,13 +1360,11 @@ public class NetworkDeviceController implements NetworkController {
     private void updateZoningMap(List<NetworkFCZoneInfo> lastReferenceZoneInfo, URI exportGroupURI, List<URI> exportMaskURIs) {
 
         if (exportMaskURIs == null || exportMaskURIs.isEmpty()) {
+        	exportMaskURIs = new ArrayList<URI>();
             ExportGroup exportGroup = _dbClient.queryObject(ExportGroup.class, exportGroupURI);
-            if (exportGroup != null && exportGroup.getExportMasks() != null) {
-                exportMaskURIs = new ArrayList<URI>();
-                exportMaskURIs = StringSetUtil.stringSetToUriList(exportGroup.getExportMasks());
-            } else {
-            	exportMaskURIs = new ArrayList<URI>();
-            }
+            if (exportGroup != null && exportGroup.getExportMasks() != null) {               
+                exportMaskURIs.addAll(StringSetUtil.stringSetToUriList(exportGroup.getExportMasks()));
+            } 
         }
         
         for (URI exportMaskURI : exportMaskURIs) {

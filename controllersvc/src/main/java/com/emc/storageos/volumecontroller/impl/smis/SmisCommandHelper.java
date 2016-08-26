@@ -5583,6 +5583,10 @@ public class SmisCommandHelper implements SmisConstants {
         StringBuffer policyName = new StringBuffer();
         Volume volume = null;
        
+        //Bharath
+        if (true){
+        	throw DeviceControllerException.exceptions.failedToAcquireLock("Bharath-Intentional-Exception", "deleteParkingSLOStorageGroupsIfEmpty");
+        }
         if (URIUtil.isType(blockObjectURI, Volume.class)) {
             volume = _dbClient.queryObject(Volume.class, blockObjectURI);
 
