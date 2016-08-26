@@ -1360,7 +1360,6 @@ public class NetworkDeviceController implements NetworkController {
     private void updateZoningMap(List<NetworkFCZoneInfo> lastReferenceZoneInfo, URI exportGroupURI, List<URI> exportMaskURIs) {
 
         if (exportMaskURIs == null || exportMaskURIs.isEmpty()) {
-        	exportMaskURIs = new ArrayList<URI>();
             ExportGroup exportGroup = _dbClient.queryObject(ExportGroup.class, exportGroupURI);
             if (exportGroup != null && exportGroup.getExportMasks() != null) {               
                 exportMaskURIs.addAll(StringSetUtil.stringSetToUriList(exportGroup.getExportMasks()));
@@ -1590,7 +1589,7 @@ public class NetworkDeviceController implements NetworkController {
 
             if (result.isCommandSuccess() && !lastReferenceZoneInfo.isEmpty()) {
                 _log.info("There seems to be last reference zones that were removed, clean those zones from the zoning map.");
-                updateZoningMap(lastReferenceZoneInfo, exportGroupURI, null);
+                updateZoningMap(lastReferenceZoneInfo, exportGroupURI, new ArrayList<URI>());
             }
 
             return result.isCommandSuccess();
