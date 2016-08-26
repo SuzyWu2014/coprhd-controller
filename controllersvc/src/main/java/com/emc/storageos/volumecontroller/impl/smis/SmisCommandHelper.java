@@ -5582,11 +5582,7 @@ public class SmisCommandHelper implements SmisConstants {
     public String getVMAX3FastSettingForVolume(URI blockObjectURI, String autoTierPolicyName) {
         StringBuffer policyName = new StringBuffer();
         Volume volume = null;
-       
-        //Bharath
-        if (true){
-        	throw DeviceControllerException.exceptions.failedToAcquireLock("Bharath-Intentional-Exception", "deleteParkingSLOStorageGroupsIfEmpty");
-        }
+              
         if (URIUtil.isType(blockObjectURI, Volume.class)) {
             volume = _dbClient.queryObject(Volume.class, blockObjectURI);
 
