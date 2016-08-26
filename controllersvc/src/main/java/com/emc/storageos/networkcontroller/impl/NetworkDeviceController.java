@@ -1362,7 +1362,7 @@ public class NetworkDeviceController implements NetworkController {
         if (exportMaskURIs == null || exportMaskURIs.isEmpty()) {
             ExportGroup exportGroup = _dbClient.queryObject(ExportGroup.class, exportGroupURI);
             if (exportGroup != null && exportGroup.getExportMasks() != null) {               
-                exportMaskURIs.addAll(StringSetUtil.stringSetToUriList(exportGroup.getExportMasks()));
+                exportMaskURIs = (StringSetUtil.stringSetToUriList(exportGroup.getExportMasks()));
             } 
         }
         
