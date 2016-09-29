@@ -32,7 +32,7 @@ public class DbRepairRunnable implements Runnable {
     // we use DB_REPAIR_LOCK for local/geo db repair both
     private static final String DB_REPAIR_LOCK = "dbrepair";
 
-    public static final int INTERVAL_TIME_IN_MINUTES = 6 * 60; // 3 hours
+    public static final int INTERVAL_TIME_IN_MINUTES = 6 * 60; // 6 hours
 
     public static enum StartStatus {
         STARTED, ALREADY_RUNNING, NOT_THE_TIME, NOTHING_TO_RESUME
